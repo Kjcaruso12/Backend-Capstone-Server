@@ -1,0 +1,12 @@
+[
+    {
+        "model": "Inventoryapi.invoice",
+        "pk": 1,
+        "fields": {
+            "invoiceDate": "2021-01-11",
+            "total": 4128.99,
+            "inventoryUser_id": 1,
+            "order_id": 1
+        }
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "model": "Inventoryapi.inventoryuser",
+        "pk": 1,
+        "fields": {
+            "admin": true,
+            "user_id": 1
+        }
+    }
+]

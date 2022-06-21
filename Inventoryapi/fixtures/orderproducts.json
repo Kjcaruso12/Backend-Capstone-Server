@@ -1,0 +1,29 @@
+[
+    {
+        "model": "Inventoryapi.orderproduct",
+        "pk": 1,
+        "fields": {
+            "quantity": 3,
+            "order_id": 1,
+            "product_id": 1
+        }
+    },
+    {
+        "model": "Inventoryapi.orderproduct",
+        "pk": 2,
+        "fields": {
+            "quantity": 1,
+            "order_id": 1,
+            "product_id": 3
+        }
+    },
+    {
+        "model": "Inventoryapi.orderproduct",
+        "pk": 3,
+        "fields": {
+            "quantity": 1,
+            "order_id": 1,
+            "product_id": 2
+        }
+    }
+]

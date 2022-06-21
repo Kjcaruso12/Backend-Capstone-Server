@@ -1,0 +1,11 @@
+[
+    {
+        "model": "Inventoryapi.order",
+        "pk": 1,
+        "fields": {
+            "created_on": "2020-08-29T13:24:27.172Z",
+            "completed_on": "2020-08-29T13:24:35.172Z",
+            "user_id": 1
+        }
+    }
+]
