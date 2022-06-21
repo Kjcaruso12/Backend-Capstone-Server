@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 from Inventoryapi.models import Order, InventoryUser, OrderProduct
+from Inventoryapi.models.product import Product
 from Inventoryapi.serializers import OrderSerializer
 
 
@@ -43,7 +44,14 @@ class OrderView(ViewSet):
         """Complete an order by adding a payment type and completed data
         """
         try:
-            order = Order.objects.get(pk=pk, user=request.auth.user)
+            user = InventoryUser.objects.get(user=request.auth.user)
+            order = Order.objects.get(pk=pk, user=user)
+            products = order.products.all()
+            for product in products:
+                product_inst = Product.objects.get(pk=product.id)
+                order_product = OrderProduct.objects.get(product=product_inst, order=order)
+                product_inst.quantity -= order_product.quantity
+                product_inst.save()
             order.completed_on = datetime.now()
             order.save()
             return Response({'message': "Order Completed"})
@@ -59,7 +67,10 @@ class OrderView(ViewSet):
             order = Order.objects.get(
                 completed_on=None, user=user)
             order_products = OrderProduct.objects.filter(order=order)
-            order.order_products = order_products
+            total = 0
+            for order_product in order_products:
+                total += order_product.total
+            order.total = total
             serializer = OrderSerializer(order)
             return Response(serializer.data)
         except Order.DoesNotExist:

@@ -1,1 +1,2 @@
-DROP TABLE Inventoryapi_orderproduct
+DELETE FROM Inventoryapi_invoice
+where id = 8

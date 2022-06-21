@@ -105,8 +105,8 @@ class ProductView(ViewSet):
             product = Product.objects.get(pk=pk)
             order, _ = Order.objects.get_or_create(
                 user=user, completed_on=None)
-            # Update so that when a product gets added thats already in the order, its puts a put request to update the quantity instead of adding a new product
             order.products.add(product, through_defaults={'quantity': request.data['quantity']})
+            # Update so that when a product gets added thats already in the order, its puts a put request to update the quantity instead of adding a new product
             return Response({'message': 'product added'}, status=status.HTTP_201_CREATED)
         except Product.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
@@ -120,7 +120,9 @@ class ProductView(ViewSet):
             product = Product.objects.get(pk=pk)
             order = Order.objects.get(
                 user=user, completed_on=None)
+            order_product = OrderProduct.objects.get(order=order.id, product=product.id)
             order.products.remove(product)
+            order_product.delete()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
         except (Product.DoesNotExist, Order.DoesNotExist) as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)

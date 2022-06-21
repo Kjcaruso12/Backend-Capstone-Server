@@ -9,12 +9,11 @@ class Order(models.Model):
 
     @property
     def total(self):
-        """Calculate the order total
+        return self.__total
 
-        Returns:
-            float: The sum of the product prices on the order
-        """
-        return sum([p.total for p in self.products.all()], 0)
+    @total.setter
+    def total(self,value):
+        self.__total = value
 
     @property
     def number_purchased(self):

@@ -21,7 +21,7 @@ class UpdateProductSerializer(serializers.ModelSerializer):
 class CreateProductSerializer(serializers.Serializer):
     group_id = serializers.IntegerField()
     name = serializers.CharField()
-    price = serializers.DecimalField(decimal_places=2, max_digits=7)
+    price = serializers.DecimalField(decimal_places=3, max_digits=9)
     description = serializers.CharField()
     quantity = serializers.IntegerField()
     created_on = serializers.DateTimeField()

@@ -1,11 +1,10 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
-
 from Inventoryapi.models import Order, Invoice, InventoryUser
-from Inventoryapi.serializers import InvoiceSerializer, CreateInvoiceSerializer, OrderSerializer
+from Inventoryapi.models.order_product import OrderProduct
+from Inventoryapi.serializers import InvoiceSerializer, CreateInvoiceSerializer
 
 
 class InvoiceView(ViewSet):
@@ -14,11 +13,15 @@ class InvoiceView(ViewSet):
         """Create a new invoice for the current order"""
         user = InventoryUser.objects.get(user=request.auth.user)
         order = Order.objects.get(pk=request.data['order_id'])
+        order_products = OrderProduct.objects.filter(order=order)
+        total = 0
+        for order_product in order_products:
+            total += order_product.total
         try:
             invoice = Invoice.objects.create(
-                total=order.total,
+                total=total,
                 order=order,
-                user=user
+                inventoryUser=user
             )
             serializer = CreateInvoiceSerializer(invoice)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -40,6 +43,11 @@ class InvoiceView(ViewSet):
         """Get a list of the current users orders
         """
         invoices = Invoice.objects.all()
+        for invoice in invoices:
+            order = Order.objects.get(pk=invoice.order_id)
+            order_products = OrderProduct.objects.filter(order=order)
+            total = sum([p.quantity for p in order_products], 0)
+            invoice.number_purchased = total
         serializer = InvoiceSerializer(invoices, many=True)
         return Response(serializer.data)
 

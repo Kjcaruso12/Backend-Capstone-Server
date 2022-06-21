@@ -8,7 +8,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invoice
-        fields = ('id', 'invoiceDate', 'total', 'inventoryUser', 'order')
+        fields = ('id', 'invoiceDate', 'total', 'inventoryUser', 'order', 'number_purchased')
         depth = 2
 
 class CreateInvoiceSerializer(serializers.Serializer):
