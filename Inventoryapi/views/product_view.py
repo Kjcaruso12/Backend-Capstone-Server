@@ -62,27 +62,6 @@ class ProductView(ViewSet):
     def list(self, request):
         """Get a list of all products"""
         products = Product.objects.all()
-
-        category = request.query_params.get('group', None)
-        order = request.query_params.get('order_by', None)
-        direction = request.query_params.get('direction', None)
-        name = request.query_params.get('name', None)
-        min_price = request.query_params.get('min_price', None)
-
-        if order is not None:
-            order_filter = f'-{order}' if direction == 'desc' else order
-            products = products.order_by(order_filter)
-
-        if category is not None:
-            products = products.filter(category__id=category)
-
-        if name is not None:
-            products = products.filter(name__icontains=name)
-
-        if min_price is not None:
-            products = products.filter(price__gte=min_price)
-
-
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 

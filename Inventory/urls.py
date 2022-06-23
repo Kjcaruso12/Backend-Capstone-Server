@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from Inventoryapi.views import ProductView, GroupView, OrderView, ProfileView, InvoiceView, OrderProductView, register_user, login_user
+from Inventoryapi.views import ProductView, GroupView, OrderView, ProfileView, InvoiceView, OrderProductView, UserView, register_user, login_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'products', ProductView, 'product')
@@ -27,6 +27,7 @@ router.register(r'orders', OrderView, 'order')
 router.register(r'profile', ProfileView, 'profile')
 router.register(r'invoices', InvoiceView, 'invoice')
 router.register(r'order_products', OrderProductView, 'order_product')
+router.register(r'users', UserView, 'user')
 
 urlpatterns = [
     path('register', register_user),
