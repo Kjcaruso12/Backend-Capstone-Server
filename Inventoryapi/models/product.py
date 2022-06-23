@@ -23,12 +23,14 @@ class Product(models.Model):
         total_amount = (self.quantity * self.price)
         return total_amount
 
-
     @property
     def number_purchased(self):
-        """Returns the number of times product shows up on completed orders
-        """
-        total_sold = 0
-        for product in self.orders.all():
-            total_sold += product.quantity
-        return total_sold
+        """Returns the quantity of product sold
+         """
+        total = 0
+        for product in self.orderproduct_set.all():
+            if product.product_id == self.id:
+                if product.order.completed_on is not None:
+                    total += product.quantity
+        return total
+

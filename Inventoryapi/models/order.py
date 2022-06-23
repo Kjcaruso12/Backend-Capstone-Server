@@ -15,11 +15,10 @@ class Order(models.Model):
     def total(self,value):
         self.__total = value
 
-    @property
-    def number_purchased(self):
-        """Calculates total quantity of products in an order
-
-        Returns:
-            integer: The sum of the product quantities on the order
-        """
-        return sum([p.quantity for p in self.products.all()], 0)
+    # @property
+    # def number_purchased(self):
+    #     """Calculates total quantity of products in an order
+    #     Returns:
+    #         integer: The sum of the product quantities on the order
+    #     """
+    #     return sum([p.quantity for p in self.products.all()], 0)

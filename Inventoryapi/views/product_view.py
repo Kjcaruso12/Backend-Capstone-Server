@@ -106,4 +106,15 @@ class ProductView(ViewSet):
         except (Product.DoesNotExist, Order.DoesNotExist) as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=False)
+    def top_selling(self, request):
+        """Returns top 10 selling items"""
+        try:
+            products = sorted(Product.objects.all(), key=lambda a: a.number_purchased, reverse=True)
+            products = products[:10]
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data)
+        except Product.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
 
